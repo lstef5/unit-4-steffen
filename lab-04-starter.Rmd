@@ -215,5 +215,5 @@ earthquakes %>%
 - [x] I answered every requested question in complete sentences.
 - [x] All required code is in this file.
 - [x] This document Knits without errors.
-- [] I committed and pushed my final changes to GitHub.
+- [x] I committed and pushed my final changes to GitHub.
 
