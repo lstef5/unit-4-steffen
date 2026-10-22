@@ -1,7 +1,7 @@
 ---
 title: "HW 04 - Data Classes with forcats & lubridate"
-author: "Insert your name here"
-date: "Insert date here"
+author: "Liam Steffen"
+date: "10/22/2026"
 output:
   html_document:
     toc: true
@@ -17,9 +17,9 @@ By completing and submitting this homework, I certify that:
 - I may use course materials, lecture notes, R documentation/help files, and other resources explicitly approved by the instructors.
 - I understand that I am responsible for being able to explain all code and written work that I submit.
 
-**Name:** ______________________________  
-**Signature:** ___________________________  
-**Date:** _______________________________
+**Name:** Liam Steffen  
+**Signature:** Liam Steffen  
+**Date:** 10/22/2026
 
 # Before you begin
 
@@ -40,44 +40,55 @@ library(glue)
 
 **Goal:** Create vectors of different types and report their `typeof()` and `class()`.
 
-```{r create-vectors, eval = FALSE}
-# Your code here
+```{r create-vectors, eval = TRUE}
+character <- c("sushi", "pizza", "taco", "burger", "pasta")
+numeric <- c(1, 2, 3, 4, 5)
+mixed <- c(6, 7, 8, "coffee", "tea")
 ```
 
-> Replace this text with inline R reporting the `typeof()` and `class()` of each vector.
+> The first vector is the type `r typeof(character)` and class `r class(character)` , the second vector is the type `r typeof(numeric)` and class `r class(numeric)` , and the last vector is the type `r typeof(mixed)` and class `r class(mixed)`.
 
 ## Exercise 2 — Bind the vectors into a data frame
 
 **Goal:** Combine equal-length vectors into a data frame with `bind_cols()`.
 
 ```{r bind-cols, eval = FALSE}
+character <- c("sushi", "pizza", "taco", "burger", "pasta")
+numeric <- c(1, 2, 3, 4, 5)
+mixed <- c(6, 7, 8, "coffee", "tea")
 data_frame <- bind_cols("numeric" = numeric, "character" = character, "mixed" = mixed)
 data_frame
 ```
 
-> Replace this text with inline R reporting the `typeof()` and `class()` of the data frame.
+> The type of the dataframe is `r typeof(data_frame)` and the class is `r class(data_frame)`.
 
 ## Exercise 3 — Unequal-length vectors
 
 **Goal:** See what happens when `bind_cols()` receives vectors of different lengths.
 
 ```{r unequal-bind, eval = FALSE}
-# Create vectors of lengths 5, 5, and 4, then attempt bind_cols()
-# Comment out or set eval = FALSE on the failing line so the document Knits
+character <- c("sushi", "pizza", "taco", "burger", "pasta")
+numeric <- c(1, 2, 3, 4, 5)
+mixed <- c(6, 7, 8, "coffee")
+data_frame_2 <- bind_cols("numeric" = numeric, "character" = character, "mixed" = mixed)
+data_frame_2
 ```
 
-> Replace this text with an explanation of why `bind_cols()` fails here.
+> It fails since there is a different number of variables for each of the collumns, so one of the entries has nothing to bind to.
 
 ## Exercise 4 — Store unequal vectors in a list
 
 **Goal:** Use `list()` to hold vectors of different lengths.
 
 ```{r make-list, eval = FALSE}
+character <- c("sushi", "pizza", "taco", "burger", "pasta")
+numeric <- c(1, 2, 3, 4, 5)
+mixed <- c(6, 7, 8, "coffee")
 my_list <- list("numeric" = numeric, "character" = character, "mixed" = mixed)
 my_list
 ```
 
-> Replace this text with an explanation of what `list()` does and why it succeeds where `bind_cols()` failed.
+> List combines all of the collumns into a sequence in order, instead of "matching" each entry in a collumn to another.
 
 ## Exercise 5 — Character month coerced to factor
 
