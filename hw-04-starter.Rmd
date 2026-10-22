@@ -27,11 +27,12 @@ Work through `hw-04-instructions.Rmd`. Keep **all submitted code in this file** 
 
 # Load packages
 
-```{r load-packages, eval = FALSE, message = FALSE, warning = FALSE}
+```{r load-packages, eval = TRUE, message = FALSE, warning = FALSE}
 library(tidyverse)
 library(openintro)
 library(lubridate)
 library(glue)
+library(dplyr)
 ```
 
 # Exercises
@@ -52,7 +53,7 @@ mixed <- c(6, 7, 8, "coffee", "tea")
 
 **Goal:** Combine equal-length vectors into a data frame with `bind_cols()`.
 
-```{r bind-cols, eval = FALSE}
+```{r bind-cols, eval = TRUE}
 character <- c("sushi", "pizza", "taco", "burger", "pasta")
 numeric <- c(1, 2, 3, 4, 5)
 mixed <- c(6, 7, 8, "coffee", "tea")
@@ -101,7 +102,7 @@ earthquakes %>%
   labs(x = "Month of the year", y = "Earthquake count")
 ```
 
-> Replace this text with answers to the two questions about coercion and the visualization.
+> The month variable is being coerced into an arbitrary order which ends up being its alphabetical order instead of the chronological order of the months. It's wrong becuase the months are in alphabetical order.
 
 ## Exercise 6 — Reorder factors with forcats
 
@@ -114,7 +115,7 @@ earthquakes %>%
   labs(x = "Month of the year", y = "Earthquake count")
 ```
 
-> Replace this text with the function used and its effect on the plot.
+> This uses the function fct_infreq which orders the month according to their frequency of earthquake counts.
 
 ```{r earthquakes-forcats-2, eval = FALSE}
 earthquakes %>% 
@@ -123,7 +124,7 @@ earthquakes %>%
   labs(x = "Month of the year", y = "Earthquake count")
 ```
 
-> Replace this text with the function used and its effect on the plot.
+> This uses fct_rev which reverses the order of the months based on alphabetical order, so reveresed alphabetical.
 
 ```{r earthquakes-forcats-3, eval = FALSE}
 earthquakes %>% 
@@ -132,7 +133,7 @@ earthquakes %>%
   labs(x = "Month of the year", y = "Earthquake count")
 ```
 
-> Replace this text with the function used and its effect on the plot.
+> This uses fct_inorder which orders the month based on their entry order in the original dataset.
 
 ```{r earthquakes-forcats-4, eval = FALSE}
 earthquakes %>% 
@@ -141,7 +142,7 @@ earthquakes %>%
   labs(x = "Month of the year", y = "Earthquake count")
 ```
 
-> Replace this text with the functions used and their combined effect on the plot.
+> This uses fct_infreq and fct_rev to order the months by frequency, then reverse that order.
 
 ```{r earthquakes-forcats-5, eval = FALSE}
 earthquakes %>% 
@@ -163,7 +164,7 @@ earthquakes %>%
   labs(x = "Month of the year", y = "Earthquake count")
 ```
 
-> Replace this text with the functions used and their effect on the plot.
+> This uses fct_recode to manually change the order of months from January to December, then converts the months to numbers 1-12 with as.numeric.
 
 ## Exercise 7 — Build a character date with glue
 
@@ -174,19 +175,23 @@ earthquakes_new <- earthquakes %>%
   mutate(date = glue("{year} {month} {day}")) %>% 
   relocate(date)
 print(earthquakes_new)
+typeof(date)
+class(date)
 ```
 
-> Replace this text with an explanation of the second and third lines and inline R reporting the type and class of `date`.
+> The 2nd line of code in this chunk is combining the year, month, and day into a single collumn called date using the glue function. The thrid line is relocating the new date collumn to the first position. The type is `r typeof(date)` and the class is `class(date)`.
 
 ## Exercise 8 — Plot character dates
 
 **Goal:** See the problem of plotting a character date on a continuous axis.
 
 ```{r plot-1933, eval = FALSE}
-# Filter to 1933, then scatter plot of date vs richter
+earthquakes_new %>%
+  filter(year == 1933) %>%
+  ggplot(data = earthquakes_new, mapping = aes(x = date, y = richter)) + geom_point()
 ```
 
-> Replace this text with what is wrong with the plot and why.
+> The plot is messed up because the x-axis has the date labels all overlapping, making it unreadable.
 
 ## Exercise 9 — Convert the date string with lubridate
 
@@ -198,13 +203,14 @@ earthquakes %>%
   relocate(date) %>% 
   ggplot(aes(x = date, y = richter)) +
   geom_point()
+  typeof(date)
 ```
 
 # Submission checklist
 
-- [ ] I signed the academic-integrity statement.
-- [ ] My name and date are correct in the YAML.
-- [ ] I answered every requested question in complete sentences.
-- [ ] All required code is in this file.
-- [ ] This document Knits without errors.
-- [ ] I committed and pushed my final changes to GitHub.
+- [x] I signed the academic-integrity statement.
+- [x] My name and date are correct in the YAML.
+- [x] I answered every requested question in complete sentences.
+- [x] All required code is in this file.
+- [x] This document Knits without errors.
+- [x] I committed and pushed my final changes to GitHub.
