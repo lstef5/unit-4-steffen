@@ -1,0 +1,283 @@
+---
+title: "Lab 04 - Data Type Coercion"
+output: 
+  tufte::tufte_html:
+    css: lab.css
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+# Academic integrity and honor code
+
+This lab is designed to help you understand how R handles data types and coercion. **Generative AI tools are not permitted for this assignment.** This includes ChatGPT, Claude, Gemini, Copilot, Grok, and similar tools that can generate or revise code, written answers, interpretations, or assignment content.
+
+By completing and submitting this lab, I certify that:
+
+- I completed the submitted work myself.
+- I did not use generative AI to generate, debug, revise, or interpret code or written answers for this assignment.
+- I may use course materials, lecture notes, R documentation/help files, and other resources explicitly approved by the instructors.
+- I understand that I am responsible for being able to explain all code and written work that I submit.
+
+**Name:** ______________________________  
+**Signature:** ___________________________  
+**Date:** _______________________________
+
+> **Important:** Signing this statement is part of the assignment. The same statement appears in your starter file; complete it there as well.
+
+# Lab overview
+
+R automatically changes (coerces) data types when you combine values that do not all have the same type. Understanding this behavior prevents silent errors in analysis and visualization.
+
+```{r photo, fig.margin = TRUE, echo = FALSE, fig.width = 5, fig.cap = "Data Coercion Figure — Hands-on Programming in R, G. Grolemund", eval = TRUE}
+knitr::include_graphics("img/data-coercion.png")
+```
+
+## Learning goals
+
+By the end of this lab, you should be able to:
+
+A. Predict the data type of a vector that mixes values of different types.
+B. Use `typeof()` to check the type of an object.
+C. Explain why R coerces values when they are combined.
+D. Identify variables in a real data frame that can be coerced without loss of information.
+E. Recognize visualization problems that arise from incorrect data types.
+
+## Deliverable
+
+Complete **`lab-04-starter.Rmd`**. Your finished starter file should contain your code and written responses and should Knit successfully from top to bottom.
+
+**The instructions file tells you what to do; the starter file is where your assignment work belongs, except for completing the honor-code signature above.**
+
+## Reproducibility rule
+
+Throughout EAES 380, your analysis should work **from top to bottom**. Code that works only because you previously ran something in the Console is not reproducible.
+
+**Knit frequently.**
+
+## Before asking for help
+
+First check spelling, parentheses, quotation marks, package loading, and chunk order. If you are still stuck, ask Dr. Gavin McNicol or TA Kayode Ayegbusi and show them the code and error message.
+
+# Getting started
+
+If you are reading a knitted copy of these instructions, treat the steps below as review.
+
+- Open the GitHub repository you want to copy and add `/generate` to the URL.
+- Under **Owner**, choose `EAES-380`. Do not choose your personal account.
+- Name the repository `unit-4-yourlastname` and keep it **Private**.
+- Clone it into a New Project from a GitHub Repo in [RStudio Cloud](https://rstudio.cloud).
+- Open `lab-04-instructions.Rmd` and Knit it.
+- Open `lab-04-starter.Rmd`. **This is the file you will complete.**
+
+# Warm-up: R Markdown + Git
+
+Open `lab-04-starter.Rmd`.
+
+A. Replace `Insert your name here` with your name.
+B. Replace `Insert date here` with today's date.
+C. Complete and sign the honor-code statement.
+D. Knit, then commit with a message such as `Update author and honor code` and push to GitHub.
+
+# Packages and data
+
+For Exercises 1–6 you will create your own vectors. Exercises 7–10 use the `earthquakes` data from the `{openintro}` package.
+
+```{r load-packages-demo, message = FALSE}
+library(tidyverse)
+library(openintro)
+```
+
+# Exercises
+
+For each exercise: complete the matching section in `lab-04-starter.Rmd`, run the code, and write any requested interpretation in complete sentences.
+
+## Exercise 1 — Mixed numeric and character
+
+**Goal:** Observe coercion when a character value is combined with numbers.
+
+The same three chunks are present in Exercise 1 in your starter file. Under the first chunk, state the data type of each individual value. Under the second chunk, explain why the combined vector has a different type. Uncomment the `typeof()` line and state the type of the combined vector.
+
+```{r ex1-values, echo = FALSE}
+1
+1L
+"C"
+```
+
+```{r ex1-combined, echo = FALSE}
+c(1, 1L, "C")
+```
+
+```{r ex1-typeof, echo = FALSE}
+#typeof(c(1, 1L, "C"))
+```
+
+### Exercise 1 checkpoint
+
+🧶 ✅ ⬆️ **Knit, commit, and push.** Suggested commit message: `Complete Exercise 1`.
+
+## Exercise 2 — Integer sequence and numeric
+
+**Goal:** Observe coercion between integer and double.
+
+Copy the chunks into Exercise 2. State the type of each value, then uncomment `typeof()` and explain the type of the combined vector.
+
+```{r ex2-values, echo = FALSE}
+1:3
+5
+```
+
+```{r ex2-typeof, echo = FALSE}
+#typeof(c(1:3, 5))
+```
+
+### Exercise 2 checkpoint
+
+🧶 ✅ ⬆️ **Knit, commit, and push.** Suggested commit message: `Complete Exercise 2`.
+
+## Exercise 3 — Numeric and logical
+
+**Goal:** Observe coercion between numeric and logical values.
+
+Copy the chunks into Exercise 3. State the type of each value, then uncomment `typeof()` and explain the type of the combined vector.
+
+```{r ex3-values, echo = FALSE}
+3 
+FALSE
+T
+```
+
+```{r ex3-typeof, echo = FALSE}
+#typeof(c(3, FALSE, T))
+```
+
+### Exercise 3 checkpoint
+
+🧶 ✅ ⬆️ **Knit, commit, and push.** Suggested commit message: `Complete Exercise 3`.
+
+## Exercise 4 — Logical and explicit numeric coercion
+
+**Goal:** Observe the effect of `as.numeric()` on a logical value.
+
+Copy the chunks into Exercise 4. State the type of each value, then uncomment `typeof()` and explain the type of the combined vector.
+
+```{r ex4-values, echo = FALSE}
+TRUE
+as.numeric(TRUE)
+```
+
+```{r ex4-typeof, echo = FALSE}
+#typeof(c(TRUE, as.numeric(TRUE)))
+```
+
+### Exercise 4 checkpoint
+
+🧶 ✅ ⬆️ **Knit, commit, and push.** Suggested commit message: `Complete Exercise 4`.
+
+## Exercise 5 — Missing, logical, and coerced logical
+
+**Goal:** Observe coercion involving `NA` and logical values.
+
+Copy the chunks into Exercise 5. State the type of each value, then uncomment `typeof()` and explain the type of the combined vector.
+
+```{r ex5-values, echo = FALSE}
+NA
+FALSE
+as.logical(1)
+```
+
+```{r ex5-typeof, echo = FALSE}
+#typeof(c(NA, FALSE, as.logical(1)))
+```
+
+### Exercise 5 checkpoint
+
+🧶 ✅ ⬆️ **Knit, commit, and push.** Suggested commit message: `Complete Exercise 5`.
+
+## Exercise 6 — Division by zero and character
+
+**Goal:** Observe coercion when an infinite numeric value is combined with a character.
+
+Copy the chunks into Exercise 6. State the type of the numerator, the denominator, the division result, and the character value separately. Then uncomment `typeof()` and explain the type of the combined vector.
+
+```{r ex6-values, echo = FALSE}
+1L
+0
+1L / 0
+"A"
+```
+
+```{r ex6-typeof, echo = FALSE}
+#typeof(c(1L / 0, "A"))
+```
+
+### Exercise 6 checkpoint
+
+🧶 ✅ ⬆️ **Knit, commit, and push.** Suggested commit message: `Complete Exercise 6`.
+
+## Exercise 7 — Glimpse the earthquakes data
+
+**Goal:** Inspect the structure of a real data frame.
+
+Write and label a code chunk under Exercise 7 that gives a glimpse of the `earthquakes` dataset.
+
+### Exercise 7 checkpoint
+
+🧶 ✅ ⬆️ **Knit, commit, and push.** Suggested commit message: `Complete Exercise 7`.
+
+## Exercise 8 — Variables that can be coerced without loss
+
+**Goal:** Identify columns whose type can change without losing information.
+
+Under Exercise 8, state which variables in `earthquakes` could be explicitly coerced to a new type without any loss of information. Identify at least two.
+
+## Exercise 9 — Visualization problems from type coercion
+
+**Goal:** Anticipate plotting issues caused by an incorrect type.
+
+If we coerced `year` to type *character*, what visualization problems may arise if we tried to recreate the Homework 1 plot that mapped `year` to the x-axis and `richter` to the y-axis?
+
+### Exercise 9 checkpoint
+
+🧶 ✅ ⬆️ **Knit, commit, and push.** Suggested commit message: `Complete Exercises 8 and 9`.
+
+## Exercise 10 — Create and filter a major-earthquake indicator
+
+**Goal:** Build a logical indicator, coerce it to numeric, and filter.
+
+Copy the chunk into Exercise 10, label it, and complete it so that it:
+
+- creates a new variable called `major` that is `TRUE` when `richter > 7.5`
+- coerces the new variable to numeric
+- filters to keep only the major earthquakes
+
+```{r label-me, eval = FALSE}
+___ %>% 
+  mutate(major = case_when(
+    ___ > 7.5 ~ TRUE,
+    TRUE ~ ___
+  )) %>% 
+  mutate(___ = as.numeric(___)) %>% 
+  filter(___ == ___)
+```
+
+Remember to set `eval = TRUE` in the starter file so the chunk runs when you Knit.
+
+**Question:** How many major earthquakes are there in this dataset? Add your response as text.
+
+### Exercise 10 checkpoint
+
+🧶 ✅ ⬆️ Knit, commit, and push with a message such as `Complete Lab 4`. Confirm the latest files are on GitHub.
+
+# Submission checklist
+
+- [ ] I signed the academic-integrity statement in both files.
+- [ ] My name and date are correct in the starter YAML.
+- [ ] I answered every requested question in complete sentences.
+- [ ] All required code is in `lab-04-starter.Rmd`.
+- [ ] The document Knits from top to bottom without errors.
+- [ ] I committed and pushed the final version to GitHub.

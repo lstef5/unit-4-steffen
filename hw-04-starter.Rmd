@@ -1,0 +1,199 @@
+---
+title: "HW 04 - Data Classes with forcats & lubridate"
+author: "Insert your name here"
+date: "Insert date here"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+---
+
+# Academic integrity and honor code
+
+By completing and submitting this homework, I certify that:
+
+- I completed the submitted work myself.
+- I did not use generative AI (including ChatGPT, Claude, Gemini, Copilot, Grok, or similar tools) to generate, debug, revise, or interpret code or written answers for this assignment.
+- I may use course materials, lecture notes, R documentation/help files, and other resources explicitly approved by the instructors.
+- I understand that I am responsible for being able to explain all code and written work that I submit.
+
+**Name:** ______________________________  
+**Signature:** ___________________________  
+**Date:** _______________________________
+
+# Before you begin
+
+Work through `hw-04-instructions.Rmd`. Keep **all submitted code in this file** and Knit frequently. Ask Dr. Gavin McNicol or TA Kayode Ayegbusi if you are still stuck after checking spelling, parentheses, and Knit errors.
+
+# Load packages
+
+```{r load-packages, eval = FALSE, message = FALSE, warning = FALSE}
+library(tidyverse)
+library(openintro)
+library(lubridate)
+library(glue)
+```
+
+# Exercises
+
+## Exercise 1 — Create three vectors
+
+**Goal:** Create vectors of different types and report their `typeof()` and `class()`.
+
+```{r create-vectors, eval = FALSE}
+# Your code here
+```
+
+> Replace this text with inline R reporting the `typeof()` and `class()` of each vector.
+
+## Exercise 2 — Bind the vectors into a data frame
+
+**Goal:** Combine equal-length vectors into a data frame with `bind_cols()`.
+
+```{r bind-cols, eval = FALSE}
+data_frame <- bind_cols("numeric" = numeric, "character" = character, "mixed" = mixed)
+data_frame
+```
+
+> Replace this text with inline R reporting the `typeof()` and `class()` of the data frame.
+
+## Exercise 3 — Unequal-length vectors
+
+**Goal:** See what happens when `bind_cols()` receives vectors of different lengths.
+
+```{r unequal-bind, eval = FALSE}
+# Create vectors of lengths 5, 5, and 4, then attempt bind_cols()
+# Comment out or set eval = FALSE on the failing line so the document Knits
+```
+
+> Replace this text with an explanation of why `bind_cols()` fails here.
+
+## Exercise 4 — Store unequal vectors in a list
+
+**Goal:** Use `list()` to hold vectors of different lengths.
+
+```{r make-list, eval = FALSE}
+my_list <- list("numeric" = numeric, "character" = character, "mixed" = mixed)
+my_list
+```
+
+> Replace this text with an explanation of what `list()` does and why it succeeds where `bind_cols()` failed.
+
+## Exercise 5 — Character month coerced to factor
+
+**Goal:** Observe the axis order produced when ggplot coerces a character variable.
+
+```{r earthquakes-factors, eval = FALSE}
+earthquakes %>% 
+  ggplot(aes(x = month)) +
+  geom_bar() +
+  labs(x = "Month of the year", y = "Earthquake count")
+```
+
+> Replace this text with answers to the two questions about coercion and the visualization.
+
+## Exercise 6 — Reorder factors with forcats
+
+**Goal:** Practice `forcats` functions that change factor level order.
+
+```{r earthquakes-forcats-1, eval = FALSE}
+earthquakes %>% 
+  ggplot(aes(x = fct_infreq(month))) +
+  geom_bar() +
+  labs(x = "Month of the year", y = "Earthquake count")
+```
+
+> Replace this text with the function used and its effect on the plot.
+
+```{r earthquakes-forcats-2, eval = FALSE}
+earthquakes %>% 
+  ggplot(aes(x = fct_rev(month))) +
+  geom_bar() +
+  labs(x = "Month of the year", y = "Earthquake count")
+```
+
+> Replace this text with the function used and its effect on the plot.
+
+```{r earthquakes-forcats-3, eval = FALSE}
+earthquakes %>% 
+  ggplot(aes(x = fct_inorder(month))) +
+  geom_bar() +
+  labs(x = "Month of the year", y = "Earthquake count")
+```
+
+> Replace this text with the function used and its effect on the plot.
+
+```{r earthquakes-forcats-4, eval = FALSE}
+earthquakes %>% 
+  ggplot(aes(x = month %>% fct_infreq() %>% fct_rev())) +
+  geom_bar() +
+  labs(x = "Month of the year", y = "Earthquake count")
+```
+
+> Replace this text with the functions used and their combined effect on the plot.
+
+```{r earthquakes-forcats-5, eval = FALSE}
+earthquakes %>% 
+  mutate(month = fct_recode(month,
+                            "1" = "January",
+                            "2" = "February",
+                            "3" = "March",
+                            "4" = "April",
+                            "5" = "May",
+                            "6" = "June",
+                            "7" = "July",
+                            "8" = "August",
+                            "9" = "September",
+                            "10" = "October",
+                            "11" = "November",
+                            "12" = "December")) %>% 
+  ggplot(aes(x = factor(as.numeric(month)))) +
+  geom_bar() +
+  labs(x = "Month of the year", y = "Earthquake count")
+```
+
+> Replace this text with the functions used and their effect on the plot.
+
+## Exercise 7 — Build a character date with glue
+
+**Goal:** Create a character date column and inspect its type.
+
+```{r earthquake-dates, eval = FALSE}
+earthquakes_new <- earthquakes %>% 
+  mutate(date = glue("{year} {month} {day}")) %>% 
+  relocate(date)
+print(earthquakes_new)
+```
+
+> Replace this text with an explanation of the second and third lines and inline R reporting the type and class of `date`.
+
+## Exercise 8 — Plot character dates
+
+**Goal:** See the problem of plotting a character date on a continuous axis.
+
+```{r plot-1933, eval = FALSE}
+# Filter to 1933, then scatter plot of date vs richter
+```
+
+> Replace this text with what is wrong with the plot and why.
+
+## Exercise 9 — Convert the date string with lubridate
+
+**Goal:** Use a `lubridate` function to turn the character date into a Date.
+
+```{r earthquakes-dates2, eval = FALSE}
+earthquakes %>% 
+  mutate(date = ymd(glue("{year} {month} {day}"))) %>% 
+  relocate(date) %>% 
+  ggplot(aes(x = date, y = richter)) +
+  geom_point()
+```
+
+# Submission checklist
+
+- [ ] I signed the academic-integrity statement.
+- [ ] My name and date are correct in the YAML.
+- [ ] I answered every requested question in complete sentences.
+- [ ] All required code is in this file.
+- [ ] This document Knits without errors.
+- [ ] I committed and pushed my final changes to GitHub.
