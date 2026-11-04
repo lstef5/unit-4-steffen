@@ -63,6 +63,7 @@ typeof(c(1, 1L, "C"))
 
 > It is character, because any symbol or combination of symbols can be a character.
 
+
 ## Exercise 2 — Integer sequence and numeric
 
 **Goal:** Observe coercion between integer and double.
