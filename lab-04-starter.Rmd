@@ -146,8 +146,10 @@ typeof(c(NA, FALSE, as.logical(1)))
 > It's all logical because NA and FALSE themselves are logical, while the 1 becomes logical because of the "as.logical" function.
 
 ## Exercise 6 — Division by zero and character
-
+  
 **Goal:** Observe coercion when an infinite numeric value is combined with a character.
+
+
 
 ```{r ex6-values, eval = FALSE}
 1L
